@@ -1,4 +1,8 @@
+let myTable = "";
 let myLibrary = [];
+
+let library = document.getElementById("library");
+
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -25,3 +29,26 @@ var c = new Book("c", "c", 4, "yes");
 addBookToLibrary(a);
 addBookToLibrary(b);
 addBookToLibrary(c);
+
+let buildTable = function() {
+    myLibrary.forEach(e => {
+        let row = library.insertRow();
+        let cell1 = row.insertCell();
+        let cell2 = row.insertCell();
+        let cell3 = row.insertCell();
+        let cell4 = row.insertCell();
+        let cell5 = row.insertCell();
+        let cell6 = row.insertCell();
+
+        cell1.innerHTML = e.title;
+        cell2.innerHTML = e.author;
+        cell3.innerHTML = e.pages;
+        cell4.innerHTML = e.read;
+        cell5.innerHTML = "<button id=\"haveRead\">Read</button>"
+        cell6.innerHTML = "<button id=\"remove\">Remove</button>"
+
+    });
+}
+
+buildTable();
+console.log(library)
