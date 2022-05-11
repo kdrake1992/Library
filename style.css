@@ -24,10 +24,24 @@ header {
     border-bottom: 1px solid black;
 }
 
+.menu {
+    grid-row: 2/3;
+    grid-column: 1/2;
+
+    margin: 10px;
+    justify-self: center;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .container {
     grid-row: 3/4;
     grid-column: 1/2;
 
+    display: flex;
+    flex-direction: column;
     margin-top: 15px;
     justify-self: center;
 }
@@ -45,14 +59,24 @@ td {
     padding: 5px;
 }
 
-.buttons {
-    grid-row: 2/3;
-    grid-column: 1/2;
+form {
+    display: none;
 
-    margin: 10px;
-    justify-self: center;
+    min-width: 400px;
+    border: 1px solid black;
     
-    display: flex;
+    gap: 5px;
+    padding: 5px;
     flex-direction: column;
-    gap: 10px;
+}
+
+form label {
+    display: inline-block;
+    width: 50px;
+    margin-right: 25px;
+    text-align: left;
+}
+
+form input[type="text"] {
+    width: 300px;
 }

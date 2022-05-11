@@ -11,6 +11,11 @@
     <header>
         <h1>The Great Library</h1>
     </header>
+
+    <div class="menu">
+        <h2>Welcome Back</h2>
+        <button id="newBook" onclick="newBook()">New Book</button>
+    </div>
     
     <div class="container">
         <table id="library">
@@ -21,11 +26,40 @@
             <td>Update</td>
             <td>Remove</td>
         </table>
+
+        <form action="post" id="bookForm">
+            <legend><i>Book Information</i></legend>
+
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title">
+            </div>
+
+            <div>
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author">
+            </div>
+
+            <div>
+                <label for="pages">Pages:</label>
+                <input type="number" id="pages" name="pages">
+            </div>
+
+            <div>
+                <label for="read">Read:</label>
+                <input type="checkbox" id="read" name="read">
+            </div>
+
+            <div>
+                <button type="submit">Add Book</button>
+                <button type="reset">Clear</button>
+            </div>
+
+        
+
+        </form>
     </div>
-    <div class="buttons">
-        <h2>Welcome Back</h2>
-        <button id="newBook">New Book</button>
-    </div>
+
     
     <script src="./script.js"></script>
 </body>

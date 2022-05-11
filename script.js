@@ -30,6 +30,21 @@ addBookToLibrary(a);
 addBookToLibrary(b);
 addBookToLibrary(c);
 
+let newBook =function() {
+    let tableLibrary = document.getElementById("library");
+    let bookForm = document.getElementById("bookForm")
+    if (tableLibrary.style.display === "none") {
+        tableLibrary.style.display = "table";
+        bookForm.style.display = "none";
+    }
+    else {
+        tableLibrary.style.display = "none";
+        bookForm.style.display = "flex";
+    }
+
+}
+
+
 let buildTable = function() {
     myLibrary.forEach(e => {
         let row = library.insertRow();
@@ -51,4 +66,3 @@ let buildTable = function() {
 }
 
 buildTable();
-console.log(library)
