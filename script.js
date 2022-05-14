@@ -24,7 +24,7 @@ function addBookToLibrary(book) {
 
 var a = new Book("Apple", "Adam", 15, "Finished");
 var b = new Book("Ballon", "Bob", 105, "Unfinished");
-var c = new Book("Cat", "Cate", 200, "Finished");
+var c = new Book("Cat", "Kate", 200, "Finished");
 
 addBookToLibrary(a);
 addBookToLibrary(b);
@@ -64,13 +64,13 @@ let buildTable = function() {
         cell2.innerHTML = e.author;
         cell3.innerHTML = e.pages;
         cell4.innerHTML = e.read;
-        cell5.innerHTML = "<button id=\"haveRead\">Read</button>"
-        cell6.innerHTML = "<button id=\"remove\">Remove</button>"
+        cell5.innerHTML = `<button id=\"haveRead\" value=${e.title}>Read</button>`
+        cell6.innerHTML = `<button id=\"remove\" value=${e.title}>Remove</button>`
     });
 }
 
 // New Book button function
-let newBook =function() {
+let newBook = function() {
 
     if (library.style.display === "none") {
         library.style.display = "table";
@@ -123,28 +123,38 @@ let adjustTable = function() {
     bookForm.style.display = "none";
 }
 
+let rebuildTable = function() {
+    library.innerHTML = ""
+    buildTable();
+}
 
-// Adds removebook and update listener events from library
-for (var r = 1, n = library.rows.length; r < n; r++) {
 
-    let currenttitle = library.rows[r].cells[0].innerHTML;
-    let readstat = library.rows[r].cells[3].innerHTML;
+// Adds removebook function to remove button
+let removeBook = document.querySelectorAll("#remove")
+removeBook.forEach(e => {
+    e.addEventListener("click", ee=> {
+        let remove = ee.target.value;
+        let newLibrary = myLibrary.filter(data => data.title != remove);
+        myLibrary = newLibrary;
 
-    // Update listener
-    library.rows[r].cells[4].addEventListener("click", e=> {
-        if(readstat == "Finished") {
-            readstat =  "Unfinished"
+        rebuildTable();
+    })
+})
+
+// Adds update function to read button
+let updateBook = document.querySelectorAll("#haveRead")
+updateBook.forEach(f => {
+    f.addEventListener("click", ff => {
+        let edit = ff.target.value;
+        let currentBook = myLibrary.findIndex(data => data.title === edit);
+        if(myLibrary[currentBook].read == "Unfinished") {
+            myLibrary[currentBook].read = "Finished";
         }
         else {
-            readstat = "Finished"
+            myLibrary[currentBook].read = "Unfinished"
         }
+        console.log(myLibrary);
+        
+        rebuildTable();
     })
-    // Removebook listener
-    library.rows[r].cells[5].addEventListener("click", e=> {
-        let newLibrary = myLibrary.filter(e => e.title != currenttitle)
-        console.log("test");
-        myLibrary = newLibrary;
-        library.innerHTML = "";
-        buildTable();
-    })
-}
+})
