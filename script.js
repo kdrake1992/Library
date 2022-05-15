@@ -1,8 +1,11 @@
 let myTable = "";
 let myLibrary = [];
 
-let library = document.getElementById("library");
+let library = document.getElementById("bookGrid");
 let bookform = document.getElementById("bookForm");
+let newBookButton = document.getElementById("newBook")
+let removeBook = document.querySelectorAll("#remove")
+let updateBook = document.querySelectorAll("#haveRead")
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -22,69 +25,46 @@ function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
-var a = new Book("Apple", "Adam", 15, "Finished");
-var b = new Book("Ballon", "Bob", 105, "Unfinished");
-var c = new Book("Cat", "Kate", 200, "Finished");
+let a = new Book("Apple", "Adam", 15, "Finished");
+let b = new Book("Ballon", "Bob", 105, "Unfinished");
+let c = new Book("Cat", "Kate", 200, "Finished");
 
 addBookToLibrary(a);
 addBookToLibrary(b);
 addBookToLibrary(c);
 
 // Builds the library table
-let buildTable = function() {
+let buildGrid = function() {
     myLibrary.forEach(e => {
-
-        if(library.rows.length == 0 ) {
-            let row = library.insertRow();
-            let cell1 = row.insertCell();
-            let cell2 = row.insertCell();
-            let cell3 = row.insertCell();
-            let cell4 = row.insertCell();
-            let cell5 = row.insertCell();
-            let cell6 = row.insertCell();
-
-            cell1.innerHTML = "Title";
-            cell2.innerHTML = "Author";
-            cell3.innerHTML = "Pages";
-            cell4.innerHTML = "Read";
-            cell5.innerHTML = "Update";
-            cell6.innerHTML = "Remove";
-        }
-
-        let row = library.insertRow();
-        let cell1 = row.insertCell();
-        let cell2 = row.insertCell();
-        let cell3 = row.insertCell();
-        let cell4 = row.insertCell();
-        let cell5 = row.insertCell();
-        let cell6 = row.insertCell();
-
-
-        cell1.innerHTML = e.title;
-        cell2.innerHTML = e.author;
-        cell3.innerHTML = e.pages;
-        cell4.innerHTML = e.read;
-        cell5.innerHTML = `<button id=\"haveRead\" value=${e.title}>Read</button>`
-        cell6.innerHTML = `<button id=\"remove\" value=${e.title}>Remove</button>`
-    });
+        let newCard = document.createElement("div");
+        newCard.innerHTML =     `<div class=\"card\">
+                                <p>Title: ${e.title} </p>
+                                <p>Author: ${e.author}</p>
+                                <p>Pages: ${e.pages}</p>
+                                <p>Read: ${e.read}</p>
+                                <div class="bottomCard">
+                                    <button id="update">Update</button>
+                                    <button id="remove">Remove</button>
+                                </div>`
+        library.appendChild(newCard);
+    })
 }
 
+// Build intial table
+buildGrid();
+
 // New Book button function
-let newBook = function() {
+newBookButton.addEventListener('click', e => {
 
     if (library.style.display === "none") {
-        library.style.display = "table";
+        library.style.display = "grid";
         bookForm.style.display = "none";
     }
     else {
         library.style.display = "none";
         bookForm.style.display = "flex";
     }
-
-}
-
-// Build intial table
-buildTable();
+})
 
 //Reads new book form
 bookform.addEventListener('submit', e => {
@@ -107,42 +87,36 @@ bookform.addEventListener('submit', e => {
         pagesInput.value, readInput.value);
 
     addBookToLibrary(addbook);
-    adjustTable();
+    adjustGrid();
 })
 
 
+
 // Removes old table, replaces it with a new one
-let adjustTable = function() {
+let adjustGrid = function() {
     library.innerHTML = ""
     bookForm.reset();
 
 
-    buildTable();
+    buildGrid();
 
-    library.style.display = "table";
+    library.style.display = "grid";
     bookForm.style.display = "none";
 }
 
-let rebuildTable = function() {
-    library.innerHTML = ""
-    buildTable();
-}
-
-
 // Adds removebook function to remove button
-let removeBook = document.querySelectorAll("#remove")
+
 removeBook.forEach(e => {
     e.addEventListener("click", ee=> {
         let remove = ee.target.value;
         let newLibrary = myLibrary.filter(data => data.title != remove);
         myLibrary = newLibrary;
 
-        rebuildTable();
+        adjustGrid();
     })
 })
 
 // Adds update function to read button
-let updateBook = document.querySelectorAll("#haveRead")
 updateBook.forEach(f => {
     f.addEventListener("click", ff => {
         let edit = ff.target.value;
@@ -153,8 +127,7 @@ updateBook.forEach(f => {
         else {
             myLibrary[currentBook].read = "Unfinished"
         }
-        console.log(myLibrary);
         
-        rebuildTable();
+        adjustGrid();
     })
 })
