@@ -4,8 +4,7 @@ let myLibrary = [];
 let library = document.getElementById("bookGrid");
 let bookform = document.getElementById("bookForm");
 let newBookButton = document.getElementById("newBook")
-let removeBook = document.querySelectorAll("#remove")
-let updateBook = document.querySelectorAll("#haveRead")
+
 
 // Book constructor
 function Book(title, author, pages, read) {
@@ -43,8 +42,8 @@ let buildGrid = function() {
                                 <p>Pages: ${e.pages}</p>
                                 <p>Read: ${e.read}</p>
                                 <div class="bottomCard">
-                                    <button id="update">Update</button>
-                                    <button id="remove">Remove</button>
+                                    <button id="updateBook" value=${e.title}>Update</button>
+                                    <button id="removeBook" value=${e.title}>Remove</button>
                                 </div>`
         library.appendChild(newCard);
     })
@@ -91,6 +90,41 @@ bookform.addEventListener('submit', e => {
 })
 
 
+// Adds removebook function to remove button
+let remove = function() {
+    let removeBook = document.querySelectorAll("#removeBook")
+    removeBook.forEach(e => {
+        e.addEventListener("click", ee=> {
+            let remove = ee.target.value;
+            let newLibrary = myLibrary.filter(data => data.title != remove);
+            myLibrary = newLibrary;
+    
+            adjustGrid();
+        })
+    })
+}
+
+// Adds update function to read button
+let update = function() {
+    let updateBook = document.querySelectorAll("#updateBook")
+    updateBook.forEach(f => {
+        f.addEventListener("click", ff => {
+            let edit = ff.target.value;
+            let currentBook = myLibrary.findIndex(data => data.title === edit);
+            if(myLibrary[currentBook].read == "Unfinished") {
+                myLibrary[currentBook].read = "Finished";
+            }
+            else {
+                myLibrary[currentBook].read = "Unfinished"
+            }
+            
+            adjustGrid();
+        })
+    })
+}
+
+remove();
+update();
 
 // Removes old table, replaces it with a new one
 let adjustGrid = function() {
@@ -99,35 +133,9 @@ let adjustGrid = function() {
 
 
     buildGrid();
+    remove();
+    update();
 
     library.style.display = "grid";
     bookForm.style.display = "none";
 }
-
-// Adds removebook function to remove button
-
-removeBook.forEach(e => {
-    e.addEventListener("click", ee=> {
-        let remove = ee.target.value;
-        let newLibrary = myLibrary.filter(data => data.title != remove);
-        myLibrary = newLibrary;
-
-        adjustGrid();
-    })
-})
-
-// Adds update function to read button
-updateBook.forEach(f => {
-    f.addEventListener("click", ff => {
-        let edit = ff.target.value;
-        let currentBook = myLibrary.findIndex(data => data.title === edit);
-        if(myLibrary[currentBook].read == "Unfinished") {
-            myLibrary[currentBook].read = "Finished";
-        }
-        else {
-            myLibrary[currentBook].read = "Unfinished"
-        }
-        
-        adjustGrid();
-    })
-})
